@@ -223,6 +223,65 @@ impl Matrix {
         }
         true
     }
+
+    pub fn is_symmetric_matrix(&self) -> bool {
+        self.is_square_matrix() && self.transpose().elements == self.elements
+    }
+
+    pub fn is_persymmetric_matrix(&self) -> bool {
+        if !self.is_square_matrix() {
+            return false;
+        }
+        let rows = self.get_rows();
+        for i in 0..self.row_count {
+            for j in 0..self.column_count {
+                if i > j || self.column_count - i >= j + 1 { continue; }
+                if rows[i][j] != rows[self.row_count - j - 1][self.column_count - i - 1] {
+                    return false;
+                }
+            }
+        }
+        true
+    }
+
+    pub fn is_bisymmetric_matrix(&self) -> bool {
+        self.is_square_matrix() && self.is_symmetric_matrix() && self.is_persymmetric_matrix()
+    }
+
+    pub fn is_centrosymmetric_matrix(&self) -> bool {
+        if !self.is_square_matrix() {
+            return false;
+        }
+        let rows = self.get_rows();
+        for i in 0..self.row_count {
+            for j in 0..self.column_count {
+                if i > j || self.column_count - i > j + 1 { continue; }
+                if rows[i][j] != rows[self.row_count - i - 1][self.column_count - j - 1] {
+                    return false;
+                }
+            }
+        }
+        true
+    }
+    
+    pub fn is_skew_symmetric_matrix(&self) -> bool {
+        if !self.is_square_matrix() {
+            return false;
+        }
+        let rows = self.get_rows();
+        for i in 0..self.row_count {
+            for j in 0..self.column_count {
+                if i > j { continue; }
+                if i == j && rows[i][i] != 0.0 {
+                    return false;
+                }
+                if rows[i][j] != -1.0 * rows[j][i] {
+                    return false;
+                }
+            }
+        }
+        true
+    }
 }
 
 impl PartialEq for Matrix {
