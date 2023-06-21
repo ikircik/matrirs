@@ -56,6 +56,21 @@ impl Matrix {
 
         matrix
     }
+
+    pub fn dot_product(&self, other: Matrix) -> Result<f64, ()> {
+        if &self.row_count != &other.row_count || &self.column_count != &other.column_count {
+            return Err(());
+        }
+        let mut result = 0.0;
+        for i in 0..self.row_count {
+            let mut vec_dot_product_result = 0.0;
+            for j in 0..self.column_count {
+                vec_dot_product_result += self.elements[i * self.column_count + j] * other.elements[i * self.column_count + j];
+            }
+            result += vec_dot_product_result;
+        }
+        Ok(result)
+    }
 }
 
 impl PartialEq for Matrix {
