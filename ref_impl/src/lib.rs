@@ -95,6 +95,26 @@ impl Matrix {
         }
         Ok(result)
     }
+
+    pub fn cross_product(&self, other: Matrix) -> Result<Matrix, ()> {
+        if self.column_count != other.row_count {
+            return Err(());
+        }
+        let mut elements = vec![0.0; self.row_count * other.column_count];
+        let lhs_rows = self.get_rows();
+        let rhs_columns = other.get_columns();
+        for (row_index, row) in lhs_rows.iter().enumerate() {
+            for (column_index, column) in rhs_columns.iter().enumerate() {
+                let mut element = f64::default();
+                for i in 0..other.row_count {
+                    element += row[i] * column[i];
+                }
+                elements[row_index * other.column_count + column_index] = element;
+            }
+        }
+
+        Ok(Matrix { row_count: self.row_count, column_count: other.column_count, elements })
+    }
 }
 
 impl PartialEq for Matrix {
@@ -171,6 +191,13 @@ impl MulAssign<f64> for Matrix {
         for i in 0..self.elements.len() {
             self.elements[i] = &self.elements[i] * scalar;
         }
+    }
+}
+
+impl Mul for Matrix {
+    type Output = Result<Matrix, ()>;
+    fn mul(self, other: Matrix) -> Self::Output {
+        self.cross_product(other)
     }
 }
 
