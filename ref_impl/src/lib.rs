@@ -115,6 +115,10 @@ impl Matrix {
 
         Ok(Matrix { row_count: self.row_count, column_count: other.column_count, elements })
     }
+
+    pub fn transpose(&self) -> Matrix {
+        Matrix { row_count: self.column_count, column_count: self.row_count, elements: self.get_columns().concat() }
+    }
 }
 
 impl PartialEq for Matrix {
