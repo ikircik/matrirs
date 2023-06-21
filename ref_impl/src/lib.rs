@@ -1,5 +1,6 @@
-use std::ops::{Add, AddAssign};
+use std::{ops::{Add, AddAssign}, fmt::Display};
 
+#[derive(Debug)]
 pub struct Matrix {
     row_count: usize,
     column_count: usize,
@@ -87,5 +88,30 @@ impl AddAssign for Matrix {
         for i in 0..self.elements.len() {
             self.elements[i] = &self.elements[i] + &other.elements[i];
         }
+    }
+}
+
+impl Display for Matrix {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let mut matlab_string = "[".to_string();
+        let rows: Vec<&[f64]> = self.elements.chunks(self.column_count).collect();
+        for (i, row) in rows.iter().enumerate() {
+            for (inner_i, element) in row.iter().enumerate() {
+                matlab_string += &format!("{:?}", element);
+                if inner_i != self.column_count - 1 {
+                    matlab_string += " ";
+                }
+            }
+            if i != self.row_count - 1 {
+                matlab_string += "; "
+            }
+        }
+        matlab_string += "]";
+        write!(
+            f,
+            "Matrix({}x{}={}) = {} ",
+            self.row_count, self.column_count, self.row_count * self.column_count,
+            matlab_string
+        )
     }
 }
