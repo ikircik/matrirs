@@ -29,3 +29,11 @@ impl Matrix {
         Err(())
     }
 }
+
+impl PartialEq for Matrix {
+    fn eq(&self, other: &Self) -> bool {
+        self.row_count == other.row_count &&
+        self.column_count == other.column_count &&
+        self.elements == other.elements
+    }
+}
