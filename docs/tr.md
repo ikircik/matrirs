@@ -81,7 +81,7 @@ $a$ satır ve $b$ sütundan oluşan genellikle $a=b$ olan dizeylerde asal köşe
 $$M_{5,5} = \begin{bmatrix}1 & 2 & 0 & 0 & 0 \\ 3 & 0 & 2 & 0 & 0 \\ 0 & 3 & 5 & 0 & 0\\ 0 & 0 & 2 & 9 & 4 \\ 0 & 0 & 0 & 1 & 6\end{bmatrix}$$
 
 ### Üçgensel Dizey
-$a$ satır ve $b$ sütundan oluşan bir dizeyde $i<j$ olan tüm elemanları için $e_{i,j}=0$ şartı sağlanıyorsa bu dizeye **üst üçgensel dizey**, $j>i$ olan tüm elemanları için $e_{i,j}=0$ şartı sağlanıyorsa bu dizeye **alt üçgensel dizey** denir.
+$a$ satır ve $a$ sütundan oluşan bir dizeyde $i<j$ olan tüm elemanları için $e_{i,j}=0$ şartı sağlanıyorsa bu dizeye **üst üçgensel dizey**, $j>i$ olan tüm elemanları için $e_{i,j}=0$ şartı sağlanıyorsa bu dizeye **alt üçgensel dizey** denir.
 
 Üst üçgensel dizey: $M_{3,3} = \begin{bmatrix}1 & 2 & 3 \\ 0 & 5 & 6 \\ 0 & 0 & 9\end{bmatrix}$, 
 alt üçgensel dizey: $N_{3,3} = \begin{bmatrix}1 & 0 & 0 \\ 4 & 5 & 0 \\ 7 & 8 & 9\end{bmatrix}$.
