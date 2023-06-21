@@ -119,6 +119,78 @@ impl Matrix {
     pub fn transpose(&self) -> Matrix {
         Matrix { row_count: self.column_count, column_count: self.row_count, elements: self.get_columns().concat() }
     }
+
+    pub fn is_zero_matrix(&self) -> bool {
+        self.elements.iter().all(|&element| element == 0.0)
+    }
+
+    pub fn is_identity_matrix(&self) -> bool {
+        if !self.is_square_matrix() {
+            return false;
+        }
+        let rows = self.get_rows();
+        for i in 0..self.row_count {
+            for j in 0..self.column_count {
+                if i == j && rows[i][i] != 1.0 {
+                    return false;
+                } else if i != j && rows[i][j] != 0.0 {
+                    return false;
+                }
+            }
+        }
+        true
+    }
+
+    pub fn is_square_matrix(&self) -> bool {
+        self.row_count == self.column_count
+    }
+
+    pub fn is_diagonal_matrix(&self) -> bool {
+        //? if !self.is_square_matrix() {
+        //?     return false;
+        //? }
+        let rows = self.get_rows();
+        for i in 0..self.row_count {
+            for j in 0..self.column_count {
+                if i != j && rows[i][j] != 0.0 {
+                    return false;
+                }
+            }
+        }
+        true
+    }
+
+    pub fn is_anti_diagonal_matrix(&self) -> bool {
+        //? if !self.is_square_matrix() {
+        //?     return false;
+        //? }
+        let rows = self.get_rows();
+        for i in 0..self.row_count {
+            for j in 0..self.column_count {
+                dbg!(self.column_count - i, j, rows[i][j]);
+                if self.column_count - i != j + 1 && rows[i][j] != 0.0 {
+                    return false;
+                }
+            }
+        }
+        true
+    }
+
+    pub fn is_tridiagonal_matrix(&self) -> bool {
+        //? if !self.is_square_matrix() {
+        //?     return false;
+        //? }
+        let rows = self.get_rows();
+        for i in 0..self.row_count {
+            for j in 0..self.column_count {
+                if i == j || i + 1 == j || j + 1 == i { continue; }
+                if rows[i][j] != 0.0 {
+                    return false;
+                }
+            }
+        }
+        true
+    }
 }
 
 impl PartialEq for Matrix {
