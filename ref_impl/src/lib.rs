@@ -1,4 +1,4 @@
-use std::{ops::{Add, AddAssign, Sub, SubAssign}, fmt::Display};
+use std::{ops::{Add, AddAssign, Sub, SubAssign, Mul, MulAssign}, fmt::Display};
 
 #[derive(Debug)]
 pub struct Matrix {
@@ -112,6 +112,25 @@ impl SubAssign for Matrix {
         }
         for i in 0..self.elements.len() {
             self.elements[i] = &self.elements[i] - &other.elements[i];
+        }
+    }
+}
+
+impl Mul<f64> for Matrix {
+    type Output = Matrix;
+    fn mul(self, scalar: f64) -> Self::Output {
+        let mut elements = vec![0.0; self.elements.len()];
+        for i in 0..self.elements.len() {
+            elements[i] = &self.elements[i] * scalar;
+        }
+        Matrix { row_count: self.row_count, column_count: self.column_count, elements }
+    }
+}
+
+impl MulAssign<f64> for Matrix {
+    fn mul_assign(&mut self, scalar: f64) {
+        for i in 0..self.elements.len() {
+            self.elements[i] = &self.elements[i] * scalar;
         }
     }
 }
