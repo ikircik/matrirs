@@ -16,8 +16,32 @@ impl Matrix {
         &self.row_count
     }
 
+    pub fn get_rows(&self) -> Vec<Vec<f64>> {
+        if self.row_count == 0 {
+            return vec![];
+        }
+        self.elements.chunks(self.column_count).map(|x| x.to_vec()).collect()
+    }
+
     pub fn get_column_count(&self) -> &usize {
         &self.column_count
+    }
+
+    pub fn get_columns(&self) -> Vec<Vec<f64>> {
+        if self.column_count == 0 {
+            return vec![];
+        }
+
+        let rows = self.get_rows();
+        let mut columns = vec![vec![self.elements[0]; self.row_count]; self.column_count];
+
+        for i in 0..self.row_count {
+            for j in 0..self.column_count {
+                columns[j][i] = rows[i].to_vec()[j];
+            }
+        }
+
+        columns
     }
 
     pub fn get_elements(&self) -> &Vec<f64> {
