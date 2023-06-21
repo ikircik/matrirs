@@ -191,6 +191,38 @@ impl Matrix {
         }
         true
     }
+
+    pub fn is_upper_triangular_matrix(&self) -> bool {
+        if !self.is_square_matrix() {
+            return false;
+        }
+        let rows = self.get_rows();
+        for j in 0..self.row_count {
+            for i in 0..self.column_count {
+                if i <= j { continue; }
+                if rows[i][j] != 0.0 {
+                    return false;
+                }
+            }
+        }
+        true
+    }
+
+    pub fn is_lower_triangular_matrix(&self) -> bool {
+        if !self.is_square_matrix() {
+            return false;
+        }
+        let rows = self.get_rows();
+        for i in 0..self.row_count {
+            for j in 0..self.column_count {
+                if i >= j { continue; }
+                if rows[i][j] != 0.0 {
+                    return false;
+                }
+            }
+        }
+        true
+    }
 }
 
 impl PartialEq for Matrix {
