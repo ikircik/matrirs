@@ -282,6 +282,14 @@ impl Matrix {
         }
         true
     }
+
+    pub fn is_row_matrix(&self) -> bool {
+        self.row_count == 1 && self.column_count != 0
+    }
+
+    pub fn is_column_matrix(&self) -> bool {
+        self.column_count == 1 && self.row_count != 0
+    }
 }
 
 impl PartialEq for Matrix {
