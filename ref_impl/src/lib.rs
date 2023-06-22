@@ -356,6 +356,29 @@ impl Matrix {
             None => panic!("ftw"),
         }
     }
+
+    pub fn get_minor(&self, element: (usize, usize)) -> Result<f64, ()> {
+        let i = element.0 - 1;
+        let j = element.1 - 1;
+        
+        if !self.is_square_matrix() || i * self.column_count + j > self.elements.len() {
+            return Err(());
+        }
+
+        let mut rows = self.get_rows();
+        rows.remove(i);
+        for (_, row) in rows.iter_mut().enumerate() {
+            row.remove(j);
+        }
+
+        let sub_matrix = Matrix {
+            row_count: self.row_count - 1,
+            column_count: self.column_count - 1,
+            elements: rows.concat(),
+        };
+
+        sub_matrix.determinant()
+    }
 }
 
 impl PartialEq for Matrix {
