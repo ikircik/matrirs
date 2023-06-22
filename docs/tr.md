@@ -167,7 +167,7 @@ $a=1$ ise $\det(M_{1,1})=e_{1,1}$'dir.
 
 $a=2$ ise $\det(M_{2,2})=e_{1,1}*e_{2,2} - e_{1,2}*e_{2,1}$'dir.
 
-$a=3$ ise $\det(\begin{bmatrix}a&b&c\\d&e&f\\g&h&i\end{bmatrix})=a(ei-fh)-b(di-fg)+c(dh-eg)=aei+bfg+cdh-(cef+bdi+afh)$'dir.
+$a=3$ ise $\det(\begin{bmatrix}a&b&c\\d&e&f\\g&h&i\end{bmatrix})=a(ei-fh)-b(di-fg)+c(dh-eg)=aei+bfg+cdh-(ceg+bdi+afh)$'dir.
 
 ## Ters Dizey
 $M_{a,a}$'in tersi $M^{-1}_{a,a}$ şeklinde gösterilir. Ters dizey, dizeylerde bölme yapmak için kullanılabilir.
