@@ -8,8 +8,11 @@ pub struct Matrix {
 }
 
 impl Matrix {
-    pub fn new(row_count: usize, column_count: usize, elements: Vec<f64>) -> Matrix {
-        Matrix { row_count, column_count, elements }
+    pub fn new(row_count: usize, column_count: usize, elements: Vec<f64>) -> Result<Matrix, ()> {
+        if row_count * column_count != elements.len() {
+            return Err(());
+        }
+        Ok(Matrix { row_count, column_count, elements })
     }
 
     pub fn get_row_count(&self) -> &usize {
