@@ -290,6 +290,69 @@ impl Matrix {
     pub fn is_column_matrix(&self) -> bool {
         self.column_count == 1 && self.row_count != 0
     }
+
+    pub fn determinant(&self) -> Result<f64, ()> {
+        if !self.is_square_matrix() {
+            return Err(());
+        }
+        match Some(self.elements.len()) {
+            Some(1) => {
+                // this is math
+                return Ok(self.elements[0]);
+            },
+            Some(4) => {
+                // not bad
+                return Ok(self.elements[0] * self.elements[3] - self.elements[1] * self.elements[2]);
+            },
+            Some(9) => {
+                // rule of sarrus
+                let a = self.elements[0];
+                let b = self.elements[1];
+                let c = self.elements[2];
+                let d = self.elements[3];
+                let e = self.elements[4];
+                let f = self.elements[5];
+                let g = self.elements[6];
+                let h = self.elements[7];
+                let i = self.elements[8];
+                return Ok(a*e*i + b*f*g + c*d*h - (c*e*g + b*d*i + a*f*h));
+            },
+            Some(_) => {
+                // CHAOS
+                // This algorithm uses the logic of the Lapalace Expansion (a.k.a Cofactor Expansion) method.
+                // It is quite inefficient way for calculating determinant,
+                // algorithms using decompositions generally better.
+                let mut det = 0.0;
+                const DEFAULT_ROW_INDEX: usize = 0;
+                let rows = self.get_rows();
+
+                for (index, element) in rows[DEFAULT_ROW_INDEX].iter().enumerate() {
+                    let mut new_rows: Vec<Vec<f64>> = self.get_rows();
+                    new_rows.remove(DEFAULT_ROW_INDEX);
+
+                    for (_, row) in new_rows.iter_mut().enumerate() {
+                        row.remove(index);
+                    }
+
+                    let sub_matrix = Matrix {
+                        row_count: self.row_count - 1,
+                        column_count: self.column_count - 1,
+                        elements: new_rows.concat(),
+                    };
+
+                    let multiple = match index % 2 {
+                        0 => 1.0,
+                        _ => -1.0,
+                    };
+
+                    det += multiple * sub_matrix.determinant().unwrap() * element;
+                }
+
+                return Ok(det);
+            },
+            None => panic!("ftw"),
+        }
+    }
 }
 
 impl PartialEq for Matrix {
