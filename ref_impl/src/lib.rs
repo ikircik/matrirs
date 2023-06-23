@@ -365,6 +365,13 @@ impl Matrix {
             return Err(());
         }
 
+        // M = [e]
+        // adj(M)/det(M) = M^(-1)
+        // [minor(e)]/e = [1/e] => minor(e) = 1
+        if self.elements.len() == 1 {
+            return Ok(1.0);
+        }
+
         let mut rows = self.get_rows();
         rows.remove(i);
         for (_, row) in rows.iter_mut().enumerate() {
