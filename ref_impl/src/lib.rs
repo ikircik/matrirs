@@ -425,6 +425,20 @@ impl Matrix {
 
         Ok(cofactor_matrix.unwrap().transpose())
     }
+
+    pub fn get_inverse_matrix(&self) -> Result<Matrix, ()> {
+        let adj_matrix = self.get_adjugate_matrix();
+        if adj_matrix.is_err() {
+            return Err(());
+        }
+
+        let determinant = self.determinant();
+        if determinant.unwrap() == 0.0 {
+            return Err(());
+        }
+
+        Ok(adj_matrix.unwrap() * (1.0 / determinant.unwrap()))
+    }
 }
 
 impl PartialEq for Matrix {
