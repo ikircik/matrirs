@@ -299,6 +299,12 @@ impl Matrix {
             return Err(());
         }
         match Some(self.elements.len()) {
+            Some(0) => {
+                // M = [] => M^(-1) = []
+                // if M is invertible, det not equals to 0
+                // adj(M)/det(M) = []/det(M) = [] => det(M) = 1?
+                return Ok(1.0);
+            },
             Some(1) => {
                 // this is math
                 return Ok(self.elements[0]);
@@ -361,7 +367,7 @@ impl Matrix {
         let i = element.0 - 1;
         let j = element.1 - 1;
         
-        if !self.is_square_matrix() || i * self.column_count + j > self.elements.len() {
+        if self.elements.len() == 0 || !self.is_square_matrix() || i * self.column_count + j > self.elements.len() {
             return Err(());
         }
 
@@ -405,6 +411,10 @@ impl Matrix {
     pub fn get_cofactor_matrix(&self) -> Result<Matrix, ()> {
         if !self.is_square_matrix() {
             return Err(());
+        }
+
+        if self.elements.len() == 0 {
+            return Ok(Matrix { row_count: 0, column_count: 0, elements: vec![] });
         }
 
         let mut cofactor_matrix = Matrix {
