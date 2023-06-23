@@ -379,6 +379,52 @@ impl Matrix {
 
         sub_matrix.determinant()
     }
+
+    pub fn get_cofactor(&self, element: (usize, usize)) -> Result<f64, ()> {
+        let minor = self.get_minor(element);
+
+        if minor.is_err() {
+            return Err(());
+        }
+
+        let multiple = match (element.0 + element.1) % 2 {
+            0 => 1.0,
+            _ => -1.0,
+        };
+
+        Ok(multiple * minor.unwrap())
+    }
+
+    pub fn get_cofactor_matrix(&self) -> Result<Matrix, ()> {
+        if !self.is_square_matrix() {
+            return Err(());
+        }
+
+        let mut cofactor_matrix = Matrix {
+            row_count: self.row_count,
+            column_count: self.column_count,
+            elements: vec![0.0; self.row_count * self.column_count]
+        };
+
+        for i in 0..self.row_count {
+            for j in 0..self.column_count {
+                let cofactor = self.get_cofactor((i + 1, j + 1));
+                cofactor_matrix.elements[i * self.column_count + j] = cofactor.unwrap();
+            }
+        }
+
+        Ok(cofactor_matrix)
+    }
+
+    pub fn get_adjugate_matrix(&self) -> Result<Matrix, ()> {
+        let cofactor_matrix = self.get_cofactor_matrix();
+
+        if cofactor_matrix.is_err() {
+            return Err(());
+        }
+
+        Ok(cofactor_matrix.unwrap().transpose())
+    }
 }
 
 impl PartialEq for Matrix {
